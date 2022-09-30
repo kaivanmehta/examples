@@ -54,7 +54,7 @@ print(model)
 
 config_list = [{
     'sparsity': 0.5,
-    'op_types': ['Linear', 'Conv2d']
+    'op_types': ['Linear']
 }]
 
 criterion = nn.MSELoss()
