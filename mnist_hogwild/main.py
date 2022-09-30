@@ -51,7 +51,7 @@ class Net(nn.Module):
         x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
         x = x.view(-1, 320)
         x = F.relu(self.fc1(x))
-        x = F.dropout(x, training=self.training)
+        x = F.dropout(x, training=0.2)
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)
 
@@ -89,15 +89,15 @@ if __name__ == '__main__':
     model = Net().to(device)
     model.share_memory() # gradients are allocated lazily, so they are not shared here
 
-    processes = []
-    for rank in range(args.num_processes):
-        p = mp.Process(target=train, args=(rank, args, model, device,
-                                           dataset1, kwargs))
-        # We first train the model across `num_processes` processes
-        p.start()
-        processes.append(p)
-    for p in processes:
-        p.join()
+#     processes = []
+#     for rank in range(args.num_processes):
+#         p = mp.Process(target=train, args=(rank, args, model, device,
+#                                            dataset1, kwargs))
+#         # We first train the model across `num_processes` processes
+#         p.start()
+#         processes.append(p)
+#     for p in processes:
+#         p.join()
 
     # Once training is complete, we can test the model
     #test(args, model, device, dataset2, kwargs)
