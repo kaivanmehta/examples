@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import Net
 from data import get_training_set, get_test_set
-from nni.algorithms.compression.pytorch.pruning import L1NormPruner
+from nni.algorithms.compression.pytorch.pruning import LotteryTicketPruner
 
 
 # Training settings
@@ -59,7 +59,7 @@ config_list = [{
     'op_names': ['fc3']
 }]
 
-pruner = L1NormPruner(model, config_list)
+pruner = LotteryTicketPruner(model, config_list)
 _, masks = pruner.compress()
 
 print(model)
