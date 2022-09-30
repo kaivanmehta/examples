@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import Net
 from data import get_training_set, get_test_set
-from nni.algorithms.compression.pytorch.pruning import LevelPruner
+from nni.algorithms.compression.pytorch.pruning import L1NormPruner
 
 
 # Training settings
@@ -50,9 +50,6 @@ testing_data_loader = DataLoader(dataset=test_set, num_workers=opt.threads, batc
 print('===> Building model')
 model = Net(upscale_factor=opt.upscale_factor).to(device)
 print(model)
-criterion = nn.MSELoss()
-
-optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
 config_list = [{
     'sparsity_per_layer': 0.5,
@@ -62,11 +59,19 @@ config_list = [{
     'op_names': ['fc3']
 }]
 
-config_list = [{ 'sparsity': 0.8, 'op_types': ['default'] }]
-pruner = LevelPruner(model, config_list)
-masked_model, masks = pruner.compress()
+pruner = L1NormPruner(model, config_list)
+_, masks = pruner.compress()
 
-print(masked_model)
+print(model)
+
+# show the masks sparsity
+for name, mask in masks.items():
+    print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
+    
+    
+criterion = nn.MSELoss()
+
+optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
 def train(epoch):
     epoch_loss = 0
