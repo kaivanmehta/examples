@@ -30,7 +30,7 @@ if not opt.mps and torch.backends.mps.is_available():
     raise Exception("Found mps device, please run with --mps to enable macOS GPU")
 
 torch.manual_seed(opt.seed)
-use_mps = opt.mps and torch.backends.mps.is_available()
+use_mps = False # opt.mps and torch.backends.mps.is_available()
 
 if opt.cuda:
     device = torch.device("cuda")
