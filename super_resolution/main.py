@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import Net
 from data import get_training_set, get_test_set
-from nni.compression.pytorch.pruning import L1NormPruner
+from nni.compression.pytorch.pruning import LevelPruner
 
 
 # Training settings
@@ -62,9 +62,11 @@ config_list = [{
     'op_names': ['fc3']
 }]
 
-pruner = L1NormPruner(model, config_list)
+config_list = [{ 'sparsity': 0.8, 'op_types': ['default'] }]
+pruner = LevelPruner(model, config_list)
+masked_model, masks = pruner.compress()
 
-print(model)
+print(masked_model)
 
 def train(epoch):
     epoch_loss = 0
