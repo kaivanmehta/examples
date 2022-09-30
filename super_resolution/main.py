@@ -26,8 +26,8 @@ print(opt)
 
 if opt.cuda and not torch.cuda.is_available():
     raise Exception("No GPU found, please run without --cuda")
-if not opt.mps and torch.backends.mps.is_available():
-    raise Exception("Found mps device, please run with --mps to enable macOS GPU")
+# if not opt.mps and torch.backends.mps.is_available():
+#     raise Exception("Found mps device, please run with --mps to enable macOS GPU")
 
 torch.manual_seed(opt.seed)
 use_mps = False # opt.mps and torch.backends.mps.is_available()
