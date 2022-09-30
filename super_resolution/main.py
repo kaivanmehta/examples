@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import Net
 from data import get_training_set, get_test_set
-from nni.algorithms.compression.v2.pytorch.pruning import L1NormPruner
+from nni.algorithms.compression.v2.pytorch.pruning import L1NormPruner, SlimPruner
 
 
 # Training settings
@@ -60,8 +60,7 @@ criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
 pruner = L1NormPruner(model, config_list)
-pruner.compress()
-_, model, masks, _, _ = pruner.get_best_result()
+_, masks = pruner.compress()
 
 print(model)
 
