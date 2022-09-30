@@ -8,6 +8,8 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import Net
 from data import get_training_set, get_test_set
+from nni.compression.pytorch.pruning import L1NormPruner
+
 
 # Training settings
 parser = argparse.ArgumentParser(description='PyTorch Super Res Example')
@@ -52,6 +54,17 @@ criterion = nn.MSELoss()
 
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
+config_list = [{
+    'sparsity_per_layer': 0.5,
+    'op_types': ['Linear', 'Conv2d']
+}, {
+    'exclude': True,
+    'op_names': ['fc3']
+}]
+
+pruner = L1NormPruner(model, config_list)
+
+print(model)
 
 def train(epoch):
     epoch_loss = 0
@@ -87,7 +100,7 @@ def checkpoint(epoch):
     torch.save(model, model_out_path)
     print("Checkpoint saved to {}".format(model_out_path))
 
-for epoch in range(1, opt.nEpochs + 1):
-    train(epoch)
-    test()
-    checkpoint(epoch)
+# for epoch in range(1, opt.nEpochs + 1):
+#     train(epoch)
+#     test()
+#     checkpoint(epoch)
