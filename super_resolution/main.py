@@ -97,7 +97,7 @@ for epoch in range(1, opt.nEpochs + 1):
 
 config_list = [{
     'sparsity': 0.5,
-    'op_types': ['Linear', 'Conv2d']
+    'op_types': ['Conv2d']
 }]
 
 pruner = L1NormPruner(model, config_list)
