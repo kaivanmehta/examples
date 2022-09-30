@@ -51,7 +51,7 @@ class Net(nn.Module):
         x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
         x = x.view(-1, 320)
         x = F.relu(self.fc1(x))
-        x = F.dropout(x, training=self.training)
+        #x = F.dropout(x, training=self.training)
         x = self.fc2(x)
         return F.log_softmax(x, dim=1)
 
@@ -106,7 +106,7 @@ if __name__ == '__main__':
     
     config_list = [{
     'sparsity': 0.5,
-    'op_types': ['Conv2d']
+    'op_types': ['Linear', 'Conv2d']
     }]
 
     pruner = L1NormPruner(model, config_list)
