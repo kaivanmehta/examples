@@ -59,6 +59,9 @@ config_list = [{
     'op_names': ['fc3']
 }]
 
+criterion = nn.MSELoss()
+optimizer = optim.Adam(model.parameters(), lr=opt.lr)
+
 pruner = LotteryTicketPruner(model, config_list)
 _, masks = pruner.compress()
 
@@ -68,10 +71,6 @@ print(model)
 for name, mask in masks.items():
     print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
     
-    
-criterion = nn.MSELoss()
-
-optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
 def train(epoch):
     epoch_loss = 0
