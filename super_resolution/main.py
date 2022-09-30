@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import Net
 from data import get_training_set, get_test_set
-from nni.compression.torch import LevelPruner
+from nni.compression.pytorch import LevelPruner
 
 
 # Training settings
