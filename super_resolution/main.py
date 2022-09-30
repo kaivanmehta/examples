@@ -47,6 +47,7 @@ testing_data_loader = DataLoader(dataset=test_set, num_workers=opt.threads, batc
 
 print('===> Building model')
 model = Net(upscale_factor=opt.upscale_factor).to(device)
+print(model.summary())
 criterion = nn.MSELoss()
 
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
