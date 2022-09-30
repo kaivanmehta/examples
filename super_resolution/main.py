@@ -52,11 +52,6 @@ print('===> Building model')
 model = Net(upscale_factor=opt.upscale_factor).to(device)
 print(model)
 
-config_list = [{
-    'sparsity': 0.5,
-    'op_types': ['Linear']
-}]
-
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
@@ -99,6 +94,11 @@ for epoch in range(1, opt.nEpochs + 1):
     test()
     checkpoint(epoch)
  
+
+config_list = [{
+    'sparsity': 0.5,
+    'op_types': ['Linear', 'Conv2d']
+}]
 
 pruner = L1NormPruner(model, config_list)
 _, masks = pruner.compress()
