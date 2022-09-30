@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from model import Net
 from data import get_training_set, get_test_set
-from nni.algorithms.compression.pytorch.pruning import LotteryTicketPruner
+from nni.algorithms.compression.pytorch.pruning import LinearPruner
 
 
 # Training settings
@@ -52,17 +52,14 @@ model = Net(upscale_factor=opt.upscale_factor).to(device)
 print(model)
 
 config_list = [{
-    'sparsity_per_layer': 0.5,
+    'sparsity': 0.5,
     'op_types': ['Linear', 'Conv2d']
-}, {
-    'exclude': True,
-    'op_names': ['fc3']
 }]
 
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
-pruner = LotteryTicketPruner(model, config_list)
+pruner = LinearPruner(model, config_list)
 _, masks = pruner.compress()
 
 print(model)
