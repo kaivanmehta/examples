@@ -90,14 +90,14 @@ if __name__ == '__main__':
     model.share_memory() # gradients are allocated lazily, so they are not shared here
 
     processes = []
-    for rank in range(args.num_processes):
-        p = mp.Process(target=train, args=(rank, args, model, device,
-                                           dataset1, kwargs))
-        # We first train the model across `num_processes` processes
-        p.start()
-        processes.append(p)
-    for p in processes:
-        p.join()
+#     for rank in range(args.num_processes):
+#         p = mp.Process(target=train, args=(rank, args, model, device,
+#                                            dataset1, kwargs))
+#         # We first train the model across `num_processes` processes
+#         p.start()
+#         processes.append(p)
+#     for p in processes:
+#         p.join()
 
     # Once training is complete, we can test the model
     #test(args, model, device, dataset2, kwargs)
