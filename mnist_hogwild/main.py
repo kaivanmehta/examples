@@ -100,21 +100,23 @@ if __name__ == '__main__':
         p.join()
 
     # Once training is complete, we can test the model
-    test(args, model, device, dataset2, kwargs)
+    #test(args, model, device, dataset2, kwargs)
     
-  config_list = [{
-  'sparsity': 0.5,
-  'op_types': ['Conv2d']
-  }]
+    print(model)
+    
+    config_list = [{
+    'sparsity': 0.5,
+    'op_types': ['Conv2d']
+    }]
 
-  pruner = L1NormPruner(model, config_list)
-  _, masks = pruner.compress()
+    pruner = L1NormPruner(model, config_list)
+    _, masks = pruner.compress()
 
-  print(model)
+    print(model)
 
-  # show the masks sparsity
-  for name, mask in masks.items():
-      print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
+    # show the masks sparsity
+    for name, mask in masks.items():
+        print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
 
-  pruner._unwrap_model()
-  ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
+    pruner._unwrap_model()
+    ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
