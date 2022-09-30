@@ -9,6 +9,7 @@ from torch.utils.data import DataLoader
 from model import Net
 from data import get_training_set, get_test_set
 from nni.algorithms.compression.v2.pytorch.pruning import L1NormPruner, FPGMPruner
+from nni.compression.pytorch.speedup import ModelSpeedup
 
 
 # Training settings
@@ -59,16 +60,6 @@ config_list = [{
 criterion = nn.MSELoss()
 optimizer = optim.Adam(model.parameters(), lr=opt.lr)
 
-pruner = L1NormPruner(model, config_list)
-_, masks = pruner.compress()
-
-print(model)
-
-# show the masks sparsity
-for name, mask in masks.items():
-    print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
-    
-
 def train(epoch):
     epoch_loss = 0
     for iteration, batch in enumerate(training_data_loader, 1):
@@ -103,7 +94,20 @@ def checkpoint(epoch):
     torch.save(model, model_out_path)
     print("Checkpoint saved to {}".format(model_out_path))
 
-# for epoch in range(1, opt.nEpochs + 1):
-#     train(epoch)
-#     test()
-#     checkpoint(epoch)
+for epoch in range(1, opt.nEpochs + 1):
+    train(epoch)
+    test()
+    checkpoint(epoch)
+ 
+
+pruner = L1NormPruner(model, config_list)
+_, masks = pruner.compress()
+
+print(model)
+
+# show the masks sparsity
+for name, mask in masks.items():
+    print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
+   
+pruner._unwrap_model()
+ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
