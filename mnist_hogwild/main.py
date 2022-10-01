@@ -114,7 +114,7 @@ if __name__ == '__main__':
     
     
     config_list = [{
-    'sparsity': 0.25,
+    'sparsity': 0.5,
     'op_types': ['Linear']
     }]
 
