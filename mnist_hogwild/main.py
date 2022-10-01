@@ -6,6 +6,7 @@ import torch.nn.functional as F
 import torch.multiprocessing as mp
 from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
+import time
 
 from nni.algorithms.compression.v2.pytorch.pruning import L1NormPruner, FPGMPruner
 from nni.compression.pytorch.speedup import ModelSpeedup
@@ -88,21 +89,29 @@ if __name__ == '__main__':
 
     model = Net().to(device)
     model.share_memory() # gradients are allocated lazily, so they are not shared here
-
-    processes = []
-    for rank in range(args.num_processes):
-        p = mp.Process(target=train, args=(rank, args, model, device,
-                                           dataset1, kwargs))
-        # We first train the model across `num_processes` processes
-        p.start()
-        processes.append(p)
-    for p in processes:
-        p.join()
-
-    # Once training is complete, we can test the model
-    #test(args, model, device, dataset2, kwargs)
-    
+    print("model description:")
     print(model)
+    
+#     processes = []
+#     start = time.time()
+#     for rank in range(args.num_processes):
+#         p = mp.Process(target=train, args=(rank, args, model, device,
+#                                            dataset1, kwargs))
+#         # We first train the model across `num_processes` processes
+#         p.start()
+#         processes.append(p)
+#     for p in processes:
+#         p.join()
+#     stop = time.time()
+#     print("before pruning: entire training took: ", (stop - start)/60, "minutes!")
+    
+#     # Once training is complete, we can test the model
+#     start = time.time()
+#     test(args, model, device, dataset2, kwargs)
+#     stop = time.time()
+#     print("before pruning: testing took: ", (stop - start)/60, "minutes!")
+    
+    
     
     config_list = [{
     'sparsity': 0.5,
@@ -111,12 +120,33 @@ if __name__ == '__main__':
 
     pruner = L1NormPruner(model, config_list)
     _, masks = pruner.compress()
-
+    print("enclosed model")
     print(model)
 
     # show the masks sparsity
+    print("------------- sparsity ----------------")
     for name, mask in masks.items():
         print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
 
     pruner._unwrap_model()
     ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
+    
+    
+    processes = []
+    start = time.time()
+    for rank in range(args.num_processes):
+        p = mp.Process(target=train, args=(rank, args, model, device,
+                                           dataset1, kwargs))
+        # We first train the model across `num_processes` processes
+        p.start()
+        processes.append(p)
+    for p in processes:
+        p.join()
+    stop = time.time()
+    print("after pruning and speedup: entire training took: ", (stop - start)/60, "minutes!")
+    
+    # Once training is complete, we can test the model
+    start = time.time()
+    test(args, model, device, dataset2, kwargs)
+    stop = time.time()
+    print("after pruning and speed up: testing took: ", (stop - start)/60, "minutes!")
