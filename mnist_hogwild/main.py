@@ -50,7 +50,7 @@ class Net(nn.Module):
     def forward(self, x):
         x = F.relu(F.max_pool2d(self.conv1(x), 2))
         x = F.relu(F.max_pool2d(self.conv2_drop(self.conv2(x)), 2))
-        x = x.view(-1, 160)
+        x = x.view(-1, 320)
         x = F.relu(self.fc1(x))
         #x = F.dropout(x, p = 0.2, training=True)
         x = self.fc2(x)
@@ -112,7 +112,6 @@ if __name__ == '__main__':
 #     print("before pruning: testing took: ", (stop - start)/60, "minutes!")
     
     print(model)
-    print([p for p in model.parameters()])
     
     config_list = [{
     'sparsity': 0.5,
@@ -133,7 +132,6 @@ if __name__ == '__main__':
     ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
     
     
-    print([p for p in model.parameters()])
     print(model)
     processes = []
     start = time.time()
