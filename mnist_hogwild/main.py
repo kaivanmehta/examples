@@ -116,7 +116,7 @@ if __name__ == '__main__':
     
     config_list = [{
     'sparsity': 0.5,
-    'op_types': ['Conv2d']
+    'op_types': ['Conv2d', 'Linear']
     }]
 
     pruner = L1NormPruner(model, config_list)
