@@ -6,6 +6,10 @@ from torch import nn, optim
 from torch.nn import functional as F
 from torchvision import datasets, transforms
 from torchvision.utils import save_image
+import time
+
+from nni.algorithms.compression.v2.pytorch.pruning import L1NormPruner, FPGMPruner
+from nni.compression.pytorch.speedup import ModelSpeedup
 
 
 parser = argparse.ArgumentParser(description='VAE MNIST Example')
@@ -130,6 +134,23 @@ def test(epoch):
     print('====> Test set loss: {:.4f}'.format(test_loss))
 
 if __name__ == "__main__":
+    config_list = [{
+      'sparsity': 0.5,
+      'op_types': ['Conv2d']
+    }]
+
+    pruner = L1NormPruner(model, config_list)
+    _, masks = pruner.compress()
+    print("enclosed model")
+    print(model)
+
+    # show the masks sparsity
+    print("------------- sparsity ----------------")
+    for name, mask in masks.items():
+        print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
+
+    pruner._unwrap_model()
+    ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
     for epoch in range(1, args.epochs + 1):
         train(epoch)
         test(epoch)
