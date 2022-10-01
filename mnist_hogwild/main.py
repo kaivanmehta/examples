@@ -111,7 +111,8 @@ if __name__ == '__main__':
 #     stop = time.time()
 #     print("before pruning: testing took: ", (stop - start)/60, "minutes!")
     
-    
+    print(model)
+    print(model.parameters())
     
     config_list = [{
     'sparsity': 0.5,
@@ -132,6 +133,8 @@ if __name__ == '__main__':
     ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
     
     
+    print(model.parameters())
+    print(model)
     processes = []
     start = time.time()
     for rank in range(args.num_processes):
