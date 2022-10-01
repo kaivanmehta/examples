@@ -116,7 +116,7 @@ if __name__ == '__main__':
     
     
     config_list = [{
-    'sparsity': 0.5,
+    'sparsity': 0.25,
     'op_types': ['Conv2d']
     }]
 
