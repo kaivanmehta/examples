@@ -114,7 +114,7 @@ if __name__ == '__main__':
     print(model)
     
     config_list = [{
-    'sparsity': 0.25,
+    'sparsity': 0.60,
     'op_types': ['Linear']
     }, {
     'exclude': True,
