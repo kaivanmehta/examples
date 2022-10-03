@@ -9,7 +9,7 @@ from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
 import time
 
-from nni.algorithms.compression.v2.pytorch.pruning import LinearPruner
+from nni.algorithms.compression.v2.pytorch.pruning import FPGMPruner
 from nni.compression.pytorch.speedup import ModelSpeedup
 
 from train import train, test
@@ -116,23 +116,27 @@ if __name__ == '__main__':
    
 
     config_list = [{
-        'total_sparsity': 0.8,
-        'op_types': ['default']
+        'total_sparsity': 0.2,
+        'op_types': ['Linear']
     }, {
     'exclude': True,
     'op_names': ['fc2']
     }]
 
-    optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-    pruner = LinearPruner(model, config_list, total_iteration = 10, pruning_algorithm='level', speedup = True)
+    
 
-    # show the masks sparsity
-   
-#     pruner._unwrap_model()
-#     ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
+    pruner = FPGMPruner(model, config_list)
+
+    #show the masks sparsity
+    print("------------- sparsity ----------------")
+    for name, mask in masks.items():
+        print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
+        
+    pruner._unwrap_model()
+    ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
     
     
-#     print(model)
+    print(model)
     processes = []
     start = time.time()
     for rank in range(args.num_processes):
