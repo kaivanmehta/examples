@@ -121,7 +121,7 @@ if __name__ == '__main__':
     'op_names': ['fc2']
     }]
 
-    pruner = L2NormPruner(model, config_list)
+    pruner = FPGMPruner(model, config_list)
     _, masks = pruner.compress()
     print("enclosed model")
     print(model)
