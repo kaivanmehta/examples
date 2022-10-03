@@ -9,7 +9,7 @@ from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
 import time
 
-from nni.algorithms.compression.v2.pytorch.pruning import AGPPruner
+from nni.algorithms.compression.v2.pytorch.pruning import LinearPruner
 from nni.compression.pytorch.speedup import ModelSpeedup
 
 from train import train, test
@@ -124,7 +124,7 @@ if __name__ == '__main__':
     }]
 
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-    pruner = AGPPruner(model, config_list, total_iteration = 10, pruning_algorithm='level', speedup = True)
+    pruner = LinearPruner(model, config_list, total_iteration = 10, pruning_algorithm='level', speedup = True)
 
     # show the masks sparsity
    
