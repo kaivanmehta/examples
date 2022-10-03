@@ -125,6 +125,7 @@ if __name__ == '__main__':
     config_list = [{
         'initial_sparsity': 0,
         'final_sparsity': 0.8,
+        'total_sparsity': 0.8,
         'start_epoch': 0,
         'end_epoch': 10,
         'frequency': 1,
