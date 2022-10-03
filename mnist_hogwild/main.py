@@ -8,7 +8,7 @@ from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
 import time
 
-from nni.algorithms.compression.v2.pytorch.pruning import L1NormPruner, FPGMPruner
+from nni.algorithms.compression.v2.pytorch.pruning import L1NormPruner, L2NormPruner, FPGMPruner
 from nni.compression.pytorch.speedup import ModelSpeedup
 
 from train import train, test
@@ -121,7 +121,7 @@ if __name__ == '__main__':
     'op_names': ['fc2']
     }]
 
-    pruner = L1NormPruner(model, config_list)
+    pruner = L2NormPruner(model, config_list)
     _, masks = pruner.compress()
     print("enclosed model")
     print(model)
