@@ -115,7 +115,7 @@ if __name__ == '__main__':
     
     config_list = [{
     'sparsity': 0.60,
-    'op_types': ['Linear']
+    'op_types': ['Conv2d','Linear']
     }, {
     'exclude': True,
     'op_names': ['fc2']
