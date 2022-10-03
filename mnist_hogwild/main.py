@@ -131,7 +131,7 @@ if __name__ == '__main__':
     }]
 
     # pruner = FPGMPruner(model, config_list)
-    pruner = AGPPruner(model, config_list)
+    pruner = AGPPruner(model, config_list, optimizer, pruning_algorithm='level')
     _, masks = pruner.compress()
     print("enclosed model")
     print(model)
