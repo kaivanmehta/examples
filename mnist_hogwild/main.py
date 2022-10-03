@@ -133,7 +133,7 @@ if __name__ == '__main__':
 
     # pruner = FPGMPruner(model, config_list)
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-    pruner = AGPPruner(model, config_list, optimizer = optimizer, pruning_algorithm='level')
+    pruner = AGPPruner(model, config_list, total_iteration = 10, pruning_algorithm='level')
     _, masks = pruner.compress()
     print("enclosed model")
     print(model)
