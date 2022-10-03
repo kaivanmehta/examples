@@ -120,7 +120,7 @@ if __name__ == '__main__':
     'op_types': ['Conv2d','Linear']
     }, {
     'exclude': True,
-    'op_names': ['fc2']
+    'op_names': ['conv2','fc2']
     }]
 
     pruner = L1NormPruner(model, config_list)
