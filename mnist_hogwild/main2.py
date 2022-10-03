@@ -93,24 +93,24 @@ if __name__ == '__main__':
     print("model description:")
     print(model)
     
-#     processes = []
-#     start = time.time()
-#     for rank in range(args.num_processes):
-#         p = mp.Process(target=train, args=(rank, args, model, device,
-#                                            dataset1, kwargs))
-#         # We first train the model across `num_processes` processes
-#         p.start()
-#         processes.append(p)
-#     for p in processes:
-#         p.join()
-#     stop = time.time()
-#     print("before pruning: entire training took: ", (stop - start)/60, "minutes!")
+    processes = []
+    start = time.time()
+    for rank in range(args.num_processes):
+        p = mp.Process(target=train, args=(rank, args, model, device,
+                                           dataset1, kwargs))
+        # We first train the model across `num_processes` processes
+        p.start()
+        processes.append(p)
+    for p in processes:
+        p.join()
+    stop = time.time()
+    print("before pruning: entire training took: ", (stop - start)/60, "minutes!")
     
-#     # Once training is complete, we can test the model
-#     start = time.time()
-#     test(args, model, device, dataset2, kwargs)
-#     stop = time.time()
-#     print("before pruning: testing took: ", (stop - start)/60, "minutes!")
+    # Once training is complete, we can test the model
+    start = time.time()
+    test(args, model, device, dataset2, kwargs)
+    stop = time.time()
+    print("before pruning: testing took: ", (stop - start)/60, "minutes!")
     
     print(model)
    
