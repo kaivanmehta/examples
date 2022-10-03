@@ -29,7 +29,7 @@ parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
 parser.add_argument('--log-interval', type=int, default=10, metavar='N',
                     help='how many batches to wait before logging training status')
-parser.add_argument('--num-processes', type=int, default=1, metavar='N',
+parser.add_argument('--num-processes', type=int, default=2, metavar='N',
                     help='how many training processes to use (default: 2)')
 parser.add_argument('--cuda', action='store_true', default=False,
                     help='enables CUDA training')
@@ -49,9 +49,7 @@ class Net(nn.Module):
 
     def forward(self, x):
         x = F.relu(F.max_pool2d(self.conv1(x), 2))
-        #x = F.relu(F.max_pool2d((self.conv2_drop(self.conv2(x))),2))
-        x = F.relu(F.max_pool2d(self.conv2(x),2))
-        print(x.shape)
+        x = F.relu(F.max_pool2d((self.conv2_drop(self.conv2(x))),2))
         x = x.view(-1, 2560)
         x = F.relu(self.fc1(x))
         #x = F.dropout(x, p = 0.2, training=True)
@@ -116,11 +114,11 @@ if __name__ == '__main__':
     print(model)
     
     config_list = [{
-    'sparsity': 0.60,
-    'op_types': ['Conv2d','Linear']
+    'sparsity': 0.50,
+    'op_types': ['Linear']
     }, {
     'exclude': True,
-    'op_names': ['conv2','fc2']
+    'op_names': ['fc2']
     }]
 
     pruner = L1NormPruner(model, config_list)
