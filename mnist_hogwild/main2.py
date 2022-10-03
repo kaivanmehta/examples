@@ -116,7 +116,7 @@ if __name__ == '__main__':
    
 
     config_list = [{
-        'total_sparsity': 0.2,
+        'total_sparsity': 0.9,
         'op_types': ['Linear']
     }, {
     'exclude': True,
