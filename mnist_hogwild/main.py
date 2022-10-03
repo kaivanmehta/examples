@@ -2,6 +2,7 @@ from __future__ import print_function
 import argparse
 import torch
 import torch.nn as nn
+import torch.optim as optim
 import torch.nn.functional as F
 import torch.multiprocessing as mp
 from torch.utils.data.sampler import Sampler
@@ -131,6 +132,7 @@ if __name__ == '__main__':
     }]
 
     # pruner = FPGMPruner(model, config_list)
+    optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
     pruner = AGPPruner(model, config_list, optimizer, pruning_algorithm='level')
     _, masks = pruner.compress()
     print("enclosed model")
