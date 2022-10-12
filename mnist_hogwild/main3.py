@@ -120,7 +120,7 @@ if __name__ == '__main__':
       'op_types': ['Conv2d']
     }]
 
-    NaiveQuantizer(model, config_list).compress()
+    NaiveQuantizer(model).compress()
     
     print(model)
     
