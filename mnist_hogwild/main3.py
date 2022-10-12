@@ -106,10 +106,10 @@ if __name__ == '__main__':
 #     print("before pruning: entire training took: ", (stop - start)/60, "minutes!")
     
     # Once training is complete, we can test the model
-    start = time.time()
-    test(args, model, device, dataset2, kwargs)
-    stop = time.time()
-    print("before pruning: testing took: ", (stop - start)/60, "minutes!")
+#     start = time.time()
+#     test(args, model, device, dataset2, kwargs)
+#     stop = time.time()
+#     print("before pruning: testing took: ", (stop - start)/60, "minutes!")
     
     print(model)
    
