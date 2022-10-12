@@ -120,7 +120,7 @@ if __name__ == '__main__':
       'op_types': ['Conv2d'],
     },
     {
-      'quant_types': ['output'], 
+      'quant_types': ['linear'], 
       'exclude': True
     }]
     
