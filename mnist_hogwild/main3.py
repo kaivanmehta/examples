@@ -119,7 +119,7 @@ if __name__ == '__main__':
 
     config_list = [{
       'quant_types': ['weight'], 
-      'quant_bits': {'weight': 12}, 
+      'quant_bits': {'weight': 8}, 
       'op_types': ['Conv2d'],
     }]
     
