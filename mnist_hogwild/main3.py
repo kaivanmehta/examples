@@ -9,8 +9,7 @@ from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
 import time
 
-from nni.algorithms.compression.v2.pytorch.pruning import FPGMPruner
-from nni.compression.pytorch.speedup import ModelSpeedup
+from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer
 
 from train import train, test
 
@@ -116,30 +115,15 @@ if __name__ == '__main__':
    
 
     config_list = [{
-        'total_sparsity': 0.9,
-        'op_types': ['Linear']
-    }, {
-    'exclude': True,
-    'op_names': ['fc2']
+      'quant_types': ['weight', 'input'], 
+      'quant_bits': {'weight': 8, 'input': 8}, 
+      'op_types': ['Conv2d']
     }]
 
-    
-
-    pruner = FPGMPruner(model, config_list)
-    _, masks = pruner.compress()
-    print("enclosed model")
-    print(model)
-
-    #show the masks sparsity
-    print("------------- sparsity ----------------")
-    for name, mask in masks.items():
-        print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
-        
-    pruner._unwrap_model()
-    ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
-    
+    NaiveQuantizer(model, config_list).compress()
     
     print(model)
+    
     processes = []
     start = time.time()
     for rank in range(args.num_processes):
