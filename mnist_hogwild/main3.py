@@ -116,12 +116,8 @@ if __name__ == '__main__':
 
     config_list = [{
       'quant_types': ['weight'], 
-      'quant_bits': {'weight': 8}, 
+      'quant_bits': {'weight': 2}, 
       'op_types': ['Conv2d'],
-    },
-    {
-      'quant_types': ['linear'], 
-      'exclude': True
     }]
     
 #     config_list = [{
