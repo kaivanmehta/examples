@@ -115,13 +115,25 @@ if __name__ == '__main__':
    
 
     config_list = [{
-      'quant_types': ['weight', 'input'], 
-      'quant_bits': {'weight': 8, 'input': 8}, 
-      'op_types': ['Conv2d']
+      'quant_types': ['weight'], 
+      'quant_bits': {'weight': 8}, 
+      'op_types': ['Conv2d'],
+    },
+    {
+      'quant_types': ['output'], 
+      'exclude': True
     }]
+    
+#     config_list = [{
+#       'quant_types': ['weight', 'input'], 
+#       'quant_bits': {'weight': 8, 'input': 8}, 
+#       'op_types': ['Conv2d']
+#     }]
 
-    optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-    QAT_Quantizer(model, config_list, optimizer = optimizer).compress()
+#     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
+#     QAT_Quantizer(model, config_list, optimizer = optimizer).compress()
+    
+    NaiveQuantizer(model, config_list).compress()
     
     print(model)
     
