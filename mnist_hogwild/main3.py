@@ -9,7 +9,7 @@ from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
 import time
 
-from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer
+from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer, QAT_Quantizer
 
 from train import train, test
 
@@ -115,12 +115,13 @@ if __name__ == '__main__':
    
 
     config_list = [{
-      'quant_types': ['weight'], 
-      'quant_bits': {'weight': 8}, 
+      'quant_types': ['weight', 'input'], 
+      'quant_bits': {'weight': 8, 'input': 8}, 
       'op_types': ['Conv2d']
     }]
 
-    NaiveQuantizer(model).compress()
+    optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
+    QAT_Quantizer(model, config_list, optimizer = optimizer).compress()
     
     print(model)
     
