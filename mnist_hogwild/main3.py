@@ -135,7 +135,7 @@ if __name__ == '__main__':
     
     processes = []
     start = time.time()
-    train(rank, args, model, device, dataset1, kwargs)
+    train(0, args, model, device, dataset1, kwargs)
 #     for rank in range(args.num_processes):
 #         p = mp.Process(target=train, args=(rank, args, model, device,
 #                                            dataset1, kwargs))
