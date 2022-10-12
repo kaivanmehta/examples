@@ -94,6 +94,9 @@ if __name__ == '__main__':
     
     processes = []
     start = time.time()
+    
+    train(0, args, model, device, dataset1, kwargs)
+    
 #     for rank in range(args.num_processes):
 #         p = mp.Process(target=train, args=(rank, args, model, device,
 #                                            dataset1, kwargs))
@@ -102,14 +105,14 @@ if __name__ == '__main__':
 #         processes.append(p)
 #     for p in processes:
 #         p.join()
-#     stop = time.time()
-#     print("before pruning: entire training took: ", (stop - start)/60, "minutes!")
+    stop = time.time()
+    print("before pruning: entire training took: ", (stop - start)/60, "minutes!")
     
     # Once training is complete, we can test the model
-#     start = time.time()
-#     test(args, model, device, dataset2, kwargs)
-#     stop = time.time()
-#     print("before pruning: testing took: ", (stop - start)/60, "minutes!")
+    start = time.time()
+    test(args, model, device, dataset2, kwargs)
+    stop = time.time()
+    print("before pruning: testing took: ", (stop - start)/60, "minutes!")
     
     print(model)
    
