@@ -131,7 +131,8 @@ if __name__ == '__main__':
     }]
 
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-    LsqQuantizer(model, config_list, optimizer = optimizer).compress()
+    DoReFaQuantizer(model, config_list, optimizer = optimizer).compress()
+#     LsqQuantizer(model, config_list, optimizer = optimizer).compress()
 #     BNNQuantizer(model, config_list, optimizer = optimizer).compress()
     
     
