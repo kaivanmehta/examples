@@ -9,7 +9,7 @@ from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
 import time
 
-from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer, QAT_Quantizer
+from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer, QAT_Quantizer, DoReFaQuantizer
 
 from train import train, test
 
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     }]
 
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-    QAT_Quantizer(model, config_list, optimizer = optimizer).compress()
+    DoReFaQuantizer(model, config_list, optimizer = optimizer).compress()
     
     
     print(model)
