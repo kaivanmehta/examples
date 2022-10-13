@@ -113,13 +113,6 @@ if __name__ == '__main__':
     test(args, model, device, dataset2, kwargs)
     stop = time.time()
     print("before pruning: testing took: ", (stop - start)/60, "minutes!")
-    
-    param_size = 0
-    for param in model.parameters():
-        param_size += param.nelement() * param.element_size()
-        
-    print('model size: {:.6f}MB'.format(param_size))
-    
     print(model)
    
 
@@ -144,12 +137,6 @@ if __name__ == '__main__':
     
     print(model)
     
-    param_size = 0
-    for param in model.parameters():
-        param_size += param.nelement() * param.element_size()
-        
-    print('model size: {:.6f}MB'.format(param_size))
-
     processes = []
     start = time.time()
     train(0, args, model, device, dataset1, kwargs)
