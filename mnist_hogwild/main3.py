@@ -9,7 +9,7 @@ from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
 import time
 
-from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer, QAT_Quantizer, DoReFaQuantizer, BNNQuantizer
+from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer, QAT_Quantizer, DoReFaQuantizer, BNNQuantizer, LsqQuantizer
 
 from train import train, test
 
@@ -131,7 +131,8 @@ if __name__ == '__main__':
     }]
 
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-    BNNQuantizer(model, config_list, optimizer = optimizer).compress()
+    LsqQuantizer(model, config_list, optimizer = optimizer).compress()
+#     BNNQuantizer(model, config_list, optimizer = optimizer).compress()
     
     
     print(model)
