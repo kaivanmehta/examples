@@ -9,7 +9,7 @@ from torch.utils.data.sampler import Sampler
 from torchvision import datasets, transforms
 import time
 
-from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer, QAT_Quantizer, DoReFaQuantizer
+from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer, QAT_Quantizer, DoReFaQuantizer, BNNQuantizer
 
 from train import train, test
 
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     processes = []
     start = time.time()
     
-    train(0, args, model, device, dataset1, kwargs)
+#     train(0, args, model, device, dataset1, kwargs)
     
 #     for rank in range(args.num_processes):
 #         p = mp.Process(target=train, args=(rank, args, model, device,
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     }]
 
     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-    DoReFaQuantizer(model, config_list, optimizer = optimizer).compress()
+    BNNQuantizer(model, config_list, optimizer = optimizer).compress()
     
     
     print(model)
