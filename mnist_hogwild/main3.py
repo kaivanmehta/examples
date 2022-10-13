@@ -117,22 +117,22 @@ if __name__ == '__main__':
     print(model)
    
 
-    config_list = [{
-      'quant_types': ['weight'], 
-      'quant_bits': {'weight': 8}, 
-      'op_types': ['Conv2d'],
-    }]
-    
 #     config_list = [{
-#       'quant_types': ['weight', 'input'], 
-#       'quant_bits': {'weight': 8, 'input': 8}, 
-#       'op_types': ['Conv2d']
+#       'quant_types': ['weight'], 
+#       'quant_bits': {'weight': 8}, 
+#       'op_types': ['Conv2d'],
 #     }]
-
-#     optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
-#     QAT_Quantizer(model, config_list, optimizer = optimizer).compress()
+#     NaiveQuantizer(model, config_list).compress()
     
-    NaiveQuantizer(model, config_list).compress()
+    config_list = [{
+      'quant_types': ['weight', 'input'], 
+      'quant_bits': {'weight': 8, 'input': 8}, 
+      'op_types': ['Conv2d']
+    }]
+
+    optimizer = optim.SGD(model.parameters(), lr=args.lr, momentum=args.momentum)
+    QAT_Quantizer(model, config_list, optimizer = optimizer).compress()
+    
     
     print(model)
     
