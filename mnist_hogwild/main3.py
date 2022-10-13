@@ -118,7 +118,7 @@ if __name__ == '__main__':
     for param in model.parameters():
         param_size += param.nelement() * param.element_size()
         
-    print('model size: {:.3f}MB'.format(param_size/1024))
+    print('model size: {:.3f}MB'.format(param_size/1024**2))
     
     print(model)
    
@@ -148,7 +148,7 @@ if __name__ == '__main__':
     for param in model.parameters():
         param_size += param.nelement() * param.element_size()
         
-    print('model size: {:.3f}MB'.format(param_size/1024))
+    print('model size: {:.3f}MB'.format(param_size/1024**2))
 
     processes = []
     start = time.time()
