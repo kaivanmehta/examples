@@ -94,7 +94,7 @@ if __name__ == '__main__':
     
     processes = []
     start = time.time()
-    train(0, args, model, device, dataset1, kwargs)
+#     train(0, args, model, device, dataset1, kwargs)
     stop = time.time()
     
 #     for rank in range(args.num_processes):
