@@ -94,17 +94,9 @@ if __name__ == '__main__':
     
     processes = []
     start = time.time()
-#     train(0, args, model, device, dataset1, kwargs)
+    train(0, args, model, device, dataset1, kwargs)
     stop = time.time()
-    
-#     for rank in range(args.num_processes):
-#         p = mp.Process(target=train, args=(rank, args, model, device,
-#                                            dataset1, kwargs))
-#         # We first train the model across `num_processes` processes
-#         p.start()
-#         processes.append(p)
-#     for p in processes:
-#         p.join()
+
     
     print("before pruning: entire training took: ", (stop - start)/60, "minutes!")
     
@@ -141,14 +133,7 @@ if __name__ == '__main__':
     start = time.time()
     train(0, args, model, device, dataset1, kwargs)
     stop = time.time()
-#     for rank in range(args.num_processes):
-#         p = mp.Process(target=train, args=(rank, args, model, device,
-#                                            dataset1, kwargs))
-#         # We first train the model across `num_processes` processes
-#         p.start()
-#         processes.append(p)
-#     for p in processes:
-#         p.join()
+
     
     print("after pruning and speedup: entire training took: ", (stop - start)/60, "minutes!")
     
