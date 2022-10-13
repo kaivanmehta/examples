@@ -125,8 +125,8 @@ if __name__ == '__main__':
 #     NaiveQuantizer(model, config_list).compress()
     
     config_list = [{
-      'quant_types': ['weight', 'input', 'output'], 
-      'quant_bits': {'weight': 8, 'input': 8, 'output': 8}, 
+      'quant_types': ['weight', 'input'], 
+      'quant_bits': {'weight': 8, 'input': 8}, 
       'op_types': ['Conv2d']
     }]
 
