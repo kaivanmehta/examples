@@ -118,11 +118,11 @@ for name, mask in masks.items():
 pruner._unwrap_model()
 # ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
 print(model)
-
+print(train_set.shape)
 torch.onnx.export(
                 model,
-                training_data_loader,  
-                "./onnx", 
+                train_set,  
+                "./onnx/super_resolution.onnx", 
                 do_constant_folding=True,
                 input_names=['input'],  # the model's input names (an arbitrary string)
                 output_names=['output'],  # the model's output names (an arbitrary string)
