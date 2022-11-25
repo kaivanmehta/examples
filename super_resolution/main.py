@@ -76,7 +76,7 @@ def test():
     with torch.no_grad():
         for batch in testing_data_loader:
             input, target = batch[0].to(device), batch[1].to(device)
-
+            print(input.size())
             prediction = model(input)
             mse = criterion(prediction, target)
             psnr = 10 * log10(1 / mse.item())
