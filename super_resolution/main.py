@@ -116,8 +116,19 @@ for name, mask in masks.items():
     print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
 
 pruner._unwrap_model()
-ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
+# ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
 print(model)
+
+torch.onnx.export(
+                model,
+                training_data_loader,  
+                "./onnx", 
+                do_constant_folding=True,
+                input_names=['input'],  # the model's input names (an arbitrary string)
+                output_names=['output'],  # the model's output names (an arbitrary string)
+                opset_version=11  # XGen supports 11 or 9
+            )
+
 # pruner = L1NormPruner(model, config_list)
 # _, masks = pruner.compress()
 
