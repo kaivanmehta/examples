@@ -121,7 +121,7 @@ print(model)
 # print(train_set.shape)
 torch.onnx.export(
                 model,
-                train_set,  
+                torch.tensor(train_set).float(),  
                 "./onnx/super_resolution.onnx", 
                 do_constant_folding=True,
                 input_names=['input'],  # the model's input names (an arbitrary string)
