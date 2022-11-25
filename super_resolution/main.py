@@ -118,7 +118,7 @@ for name, mask in masks.items():
 pruner._unwrap_model()
 # ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
 print(model)
-print(train_set.shape)
+# print(train_set.shape)
 torch.onnx.export(
                 model,
                 train_set,  
