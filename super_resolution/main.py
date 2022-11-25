@@ -95,10 +95,18 @@ for epoch in range(1, opt.nEpochs + 1):
     checkpoint(epoch)
  
 
+# config_list = [{
+#     'sparsity': 0.5,
+#     'op_types': ['Conv2d']
+# }]
+
 config_list = [{
     'sparsity': 0.5,
     'op_types': ['Conv2d']
-}]
+    }, {
+    'exclude': True,
+    'op_names': ['fc2']
+    }]
 
 pruner = L1NormPruner(model, config_list)
 _, masks = pruner.compress()
