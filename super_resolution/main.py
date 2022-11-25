@@ -76,7 +76,6 @@ def test():
     with torch.no_grad():
         for batch in testing_data_loader:
             input, target = batch[0].to(device), batch[1].to(device)
-            print(input.size())
             prediction = model(input)
             mse = criterion(prediction, target)
             psnr = 10 * log10(1 / mse.item())
@@ -121,7 +120,7 @@ print(model)
 # print(train_set.shape)
 torch.onnx.export(
                 model,
-                torch.randn(64,1,5,5).to(device),  
+                torch.randn(10,1,64,64).to(device),  
                 "./onnx/super_resolution.onnx", 
                 do_constant_folding=True,
                 input_names=['input'],  # the model's input names (an arbitrary string)
