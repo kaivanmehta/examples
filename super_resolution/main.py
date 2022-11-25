@@ -118,7 +118,7 @@ for name, mask in masks.items():
     print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
 
 pruner._unwrap_model()
-ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
+# ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
 print(model)
 # pruner = L1NormPruner(model, config_list)
 # _, masks = pruner.compress()
