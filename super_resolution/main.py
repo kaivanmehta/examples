@@ -121,7 +121,7 @@ print(model)
 # print(train_set.shape)
 torch.onnx.export(
                 model,
-                torch.randn(3,1,28,28).to(device),  
+                torch.randn(5,1,64,64).to(device),  
                 "./onnx/super_resolution.onnx", 
                 do_constant_folding=True,
                 input_names=['input'],  # the model's input names (an arbitrary string)
