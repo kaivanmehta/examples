@@ -105,17 +105,29 @@ config_list = [{
     'op_types': ['Conv2d']
     }, {
     'exclude': True,
-    'op_names': ['fc2']
+    'op_names': ['pixel_shuffle']
     }]
 
 pruner = L1NormPruner(model, config_list)
 _, masks = pruner.compress()
-
+print("enclosed model")
 print(model)
-
 # show the masks sparsity
+print("------------- sparsity ----------------")
 for name, mask in masks.items():
     print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
-   
-# pruner._unwrap_model()
+
+pruner._unwrap_model()
 # ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
+print(model)
+# pruner = L1NormPruner(model, config_list)
+# _, masks = pruner.compress()
+
+# print(model)
+
+# # show the masks sparsity
+# for name, mask in masks.items():
+#     print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
+   
+# # pruner._unwrap_model()
+# # ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
