@@ -104,9 +104,7 @@ config_list = [{
     'sparsity': 0.5,
     'op_types': ['Conv2d']
     }, {
-    'exclude': True,
-    'op_names': ['pixel_shuffle']
-    }]
+   ]
 
 pruner = L1NormPruner(model, config_list)
 _, masks = pruner.compress()
