@@ -126,7 +126,7 @@ config_list = [{
 print(model)
 config_list = [{
       'quant_types': ['weight', 'input'],
-      'quant_bits': {'weight': 8}, 
+      'quant_bits': {'weight': 8, 'input': 8}, 
       'op_types': ['Conv2d'],
     }]
 QAT_Quantizer(model, config_list, optimizer, dummy_input = torch.randn(10, 1, 64, 64).to(device)).compress()
