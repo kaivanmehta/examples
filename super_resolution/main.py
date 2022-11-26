@@ -130,7 +130,7 @@ config_list = [{
       'op_names': ['conv1'],
       'op_types': ['Conv2d'],
     }]
-NaiveQuantizer(model, config_list).compress()
+QAT_Quantizer(model, config_list, optimizer, dummy_input = torch.randn(10, 1, 64, 64).to(device)).compress()
 
 print(model)
     
