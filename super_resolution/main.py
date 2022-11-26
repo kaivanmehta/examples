@@ -96,6 +96,7 @@ for epoch in range(1, opt.nEpochs + 1):
     train(epoch)
     test()
 stop = time.time()
+print("before quantization: entire training took: ", (stop - start)/60, "minutes!")
 
 #     checkpoint(epoch)
  
