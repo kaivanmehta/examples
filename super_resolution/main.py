@@ -92,7 +92,7 @@ def checkpoint(epoch):
 for epoch in range(1, opt.nEpochs + 1):
     train(epoch)
     test()
-    checkpoint(epoch)
+#     checkpoint(epoch)
  
 
 # config_list = [{
@@ -125,7 +125,16 @@ config_list = [{
       'op_types': ['Conv2d'],
     }]
 NaiveQuantizer(model, config_list).compress()
+
+print(model)
     
+start = time.time()
+for epoch in range(1, opt.nEpochs + 1):
+    train(epoch)
+    test()
+stop = time.time()
+print("after quantization: entire training took: ", (stop - start)/60, "minutes!")
+
 # torch.onnx.export(
 #                 model,
 #                 torch.randn(10,1,64,64).to(device),  
