@@ -105,28 +105,35 @@ config_list = [{
     }
    ]
 
-pruner = L1NormPruner(model, config_list)
-_, masks = pruner.compress()
-print("enclosed model")
-print(model)
-# show the masks sparsity
-print("------------- sparsity ----------------")
-for name, mask in masks.items():
-    print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
+# pruner = L1NormPruner(model, config_list)
+# _, masks = pruner.compress()
+# print("enclosed model")
+# print(model)
+# # show the masks sparsity
+# print("------------- sparsity ----------------")
+# for name, mask in masks.items():
+#     print(name, ' sparsity : ', '{:.2}'.format(mask['weight'].sum() / mask['weight'].numel()))
 
-pruner._unwrap_model()
+# pruner._unwrap_model()
 # ModelSpeedup(model, torch.rand(3, 1, 28, 28).to(device), masks).speedup_model()
 print(model)
-# print(train_set.shape)
-torch.onnx.export(
-                model,
-                torch.randn(10,1,64,64).to(device),  
-                "./onnx/super_resolution.onnx", 
-                do_constant_folding=True,
-                input_names=['input'],  # the model's input names (an arbitrary string)
-                output_names=['output'],  # the model's output names (an arbitrary string)
-                opset_version=11  # XGen supports 11 or 9
-            )
+config_list = [{
+      'quant_types': ['weight'],
+      'quant_bits': {'weight': 8}, 
+      'op_names': ['conv1'],
+      'op_types': ['Conv2d'],
+    }]
+NaiveQuantizer(model, config_list).compress()
+    
+# torch.onnx.export(
+#                 model,
+#                 torch.randn(10,1,64,64).to(device),  
+#                 "./onnx/super_resolution.onnx", 
+#                 do_constant_folding=True,
+#                 input_names=['input'],  # the model's input names (an arbitrary string)
+#                 output_names=['output'],  # the model's output names (an arbitrary string)
+#                 opset_version=11  # XGen supports 11 or 9
+#             )
 
 # pruner = L1NormPruner(model, config_list)
 # _, masks = pruner.compress()
