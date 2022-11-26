@@ -10,6 +10,7 @@ from model import Net
 from data import get_training_set, get_test_set
 from nni.algorithms.compression.v2.pytorch.pruning import L1NormPruner, FPGMPruner
 from nni.compression.pytorch.speedup import ModelSpeedup
+from nni.algorithms.compression.pytorch.quantization import NaiveQuantizer, QAT_Quantizer, DoReFaQuantizer, BNNQuantizer, LsqQuantizer, ObserverQuantizer
 
 
 # Training settings
